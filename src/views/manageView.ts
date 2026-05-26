@@ -37,6 +37,17 @@ export function renderManagePage(qrs) {
 
   <h1>二维码管理</h1>
 
+<form method="POST" action="/admin/manage/create" style="margin-bottom: 30px;">
+  <label>二维码 ID：</label><br/>
+  <input name="id" required style="width: 300px; padding: 8px; margin-bottom: 10px;"><br/>
+
+  <label>跳转目标 URL：</label><br/>
+  <input name="target_url" required style="width: 300px; padding: 8px; margin-bottom: 10px;"><br/>
+
+  <button type="submit" style="padding: 8px 16px;">新增二维码</button>
+</form>
+
+
   <table>
     <thead>
       <tr>
