@@ -27,3 +27,10 @@ export async function updateQr(env, id, targetUrl) {
     "UPDATE qr_codes SET target_url = ? WHERE id = ?"
   ).bind(targetUrl, id).run();
 }
+
+export async function deleteQr(env, id) {
+  return await env.DB.prepare(
+    "DELETE FROM qr_codes WHERE id = ?"
+  ).bind(id).run();
+}
+
