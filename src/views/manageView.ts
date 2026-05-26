@@ -67,7 +67,10 @@ export function renderManagePage(qrs) {
           <td>${qr.created_at}</td>
           <td>
             <a href="/admin/qr/${qr.id}">查看</a> |
-            <a href="/admin/manage/edit/${qr.id}">编辑</a>
+            <a href="/admin/manage/edit/${qr.id}">编辑</a> |
+            <form method="POST" action="/admin/manage/delete/${qr.id}" style="display:inline" onsubmit="return confirm('确认删除二维码 ${qr.id} 及其所有扫码记录吗？');">
+              <button type="submit" style="background:none;border:none;color:#e00;cursor:pointer;padding:0;">删除</button>
+            </form>
           </td>
         </tr>
       `
