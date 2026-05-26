@@ -39,3 +39,33 @@ export async function getAllQrsForExport(env) {
     "SELECT id, target_url, created_at FROM qr_codes ORDER BY created_at DESC"
   ).all();
 }
+
+// Rename a QR code ID. Migrates all scan records to the new ID in one transaction.
+// Throws "ID_EXISTS" if newId is already taken, "NOT_FOUND" if oldId doesn't exist.
+export async function renameQr(env, oldId, newId, targetUrl) {
+  if (oldId === newId) {
+    return updateQr(env, oldId, targetUrl);
+  }
+
+  const [original, conflict] = await Promise.all([
+    env.DB.prepare("SELECT created_at FROM qr_codes WHERE id = ?").bind(oldId).first(),
+    env.DB.prepare("SELECT 1 FROM qr_codes WHERE id = ?").bind(newId).first(),
+  ]);
+
+  if (!original) throw new Error("NOT_FOUND");
+  if (conflict)  throw new Error("ID_EXISTS");
+
+  await env.DB.prepare("BEGIN").run();
+  try {
+    await env.DB.prepare("INSERT INTO qr_codes (id, target_url, created_at) VALUES (?, ?, ?)")
+      .bind(newId, targetUrl, original.created_at).run();
+    await env.DB.prepare("UPDATE qr_scans SET qr_id = ? WHERE qr_id = ?")
+      .bind(newId, oldId).run();
+    await env.DB.prepare("DELETE FROM qr_codes WHERE id = ?")
+      .bind(oldId).run();
+    await env.DB.prepare("COMMIT").run();
+  } catch (err) {
+    await env.DB.prepare("ROLLBACK").run();
+    throw err;
+  }
+}
