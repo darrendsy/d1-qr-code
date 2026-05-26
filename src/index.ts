@@ -9,7 +9,7 @@ export default {
       return new Response("缺少二维码 ID", { status: 400 });
     }
 
-    // 从数据库查找对应的跳转目标
+    // 1. 查找二维码目标
     const stmt = env.DB.prepare("SELECT target_url FROM qr_codes WHERE id = ?");
     const qr = await stmt.bind(qrId).first();
 
@@ -17,7 +17,20 @@ export default {
       return new Response("未找到对应二维码", { status: 404 });
     }
 
-    // 跳转到目标网址
+    // 2. 记录扫码日志
+    const ip = request.headers.get("CF-Connecting-IP") || "";
+    const ua = request.headers.get("User-Agent") || "";
+    const referer = request.headers.get("Referer") || "";
+    const country = request.cf?.country || "";
+
+    await env.DB.prepare(
+      `INSERT INTO qr_scans (qr_id, ip, user_agent, referer, country)
+       VALUES (?, ?, ?, ?, ?)`
+    )
+      .bind(qrId, ip, ua, referer, country)
+      .run();
+
+    // 3. 跳转
     return Response.redirect(qr.target_url, 302);
   },
 };
