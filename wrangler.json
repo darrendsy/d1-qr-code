@@ -1,0 +1,16 @@
+{
+	"compatibility_date": "2025-10-08",
+	"main": "src/index.ts",
+	"name": "d1-qr-code",
+	"upload_source_maps": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "d5f57972-aa66-4f63-a7dc-659d82692213",
+			"database_name": "d1-qrcode-database"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}
