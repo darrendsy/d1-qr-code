@@ -4,6 +4,8 @@ import { handleManageRoute } from "./routes/manage";
 import { handleManageCreateRoute } from "./routes/manageCreate";
 import { handleManageEditRoute } from "./routes/manageEdit";
 import { handleManageDeleteRoute } from "./routes/manageDelete";
+import { handleExportQrRoute } from "./routes/exportQr";
+import { handleExportQrsRoute } from "./routes/exportQrs";
 
 
 export default {
@@ -28,6 +30,14 @@ export default {
     if (path.startsWith("/admin/qr/")) {
       return handleAdminRoute(request, env);
     }
+    
+    if (path.startsWith("/admin/export/qr/")) {
+      return handleExportQrRoute(request, env);
+    }
+    
+    if (path === "/admin/export/qrs") {
+      return handleExportQrsRoute(request, env);
+    }
 
     // 3. 管理页面
     if (path.startsWith("/admin/manage")) {
@@ -38,6 +48,8 @@ export default {
     if (path.startsWith("/qr/")) {
       return handleQrRoute(request, env);
     }
+
+
 
     return new Response("OK");
   },
