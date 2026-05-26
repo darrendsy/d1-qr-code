@@ -1,3 +1,10 @@
+<!-- 导出所有二维码列表 -->
+<a href="/admin/export/qrs" style="margin-right:12px;">导出二维码列表 CSV</a>
+
+<!-- 每行导出该二维码扫码记录 -->
+<a href="/admin/export/qr/${qr.id}">导出扫码 CSV</a>
+
+
 export function renderManagePage(qrs) {
   return `
 <!DOCTYPE html>
