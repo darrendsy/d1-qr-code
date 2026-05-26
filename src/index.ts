@@ -28,13 +28,23 @@ export default {
 
       // 3. 返回简单 HTML
       const html = `
+      <!DOCTYPE html>
+      <html lang="zh">
+      <head>
+        <meta charset="utf-8" />
+        <title>二维码统计 - ${qrId}</title>
+      </head>
+      <body>
         <h1>二维码统计：${qrId}</h1>
         <p>跳转目标：${qr.target_url}</p>
         <p>总扫码次数：${scans.results.length}</p>
-
+      
         <h2>最近扫码记录</h2>
         <pre>${JSON.stringify(scans.results, null, 2)}</pre>
+      </body>
+      </html>
       `;
+
 
       return new Response(html, {
         headers: { "content-type": "text/html" },
