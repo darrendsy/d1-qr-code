@@ -33,11 +33,12 @@ export default {
       <head>
         <meta charset="utf-8" />
         <title>二维码统计 - ${qrId}</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <style>
           body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 40px auto;
-            max-width: 800px;
+            max-width: 900px;
             line-height: 1.6;
             color: #333;
           }
@@ -60,9 +61,8 @@ export default {
             overflow-x: auto;
             font-size: 14px;
           }
-          .label {
-            font-weight: bold;
-            color: #555;
+          canvas {
+            margin-top: 20px;
           }
         </style>
       </head>
@@ -71,16 +71,61 @@ export default {
         <h1>二维码统计：${qrId}</h1>
       
         <div class="card">
-          <div><span class="label">跳转目标：</span> ${qr.target_url}</div>
-          <div><span class="label">总扫码次数：</span> ${scans.results.length}</div>
+          <div><strong>跳转目标：</strong> ${qr.target_url}</div>
+          <div><strong>总扫码次数：</strong> ${scans.results.length}</div>
         </div>
+      
+        <h2>扫码趋势（按时间）</h2>
+        <canvas id="trendChart" width="400" height="200"></canvas>
+      
+        <h2>国家分布</h2>
+        <canvas id="countryChart" width="400" height="200"></canvas>
       
         <h2>最近扫码记录</h2>
         <pre>${JSON.stringify(scans.results, null, 2)}</pre>
       
+        <script>
+          const scans = ${JSON.stringify(scans.results)};
+      
+          // --- 扫码趋势图数据 ---
+          const trendLabels = scans.map(s => s.timestamp);
+          const trendData = scans.map(s => 1); // 每条记录计 1 次
+      
+          new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+              labels: trendLabels,
+              datasets: [{
+                label: '扫码次数',
+                data: trendData,
+                borderColor: '#4e79a7',
+                tension: 0.3
+              }]
+            }
+          });
+      
+          // --- 国家分布图数据 ---
+          const countryCount = {};
+          scans.forEach(s => {
+            countryCount[s.country] = (countryCount[s.country] || 0) + 1;
+          });
+      
+          new Chart(document.getElementById('countryChart'), {
+            type: 'pie',
+            data: {
+              labels: Object.keys(countryCount),
+              datasets: [{
+                data: Object.values(countryCount),
+                backgroundColor: ['#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f']
+              }]
+            }
+          });
+        </script>
+      
       </body>
       </html>
       `;
+
 
 
 
