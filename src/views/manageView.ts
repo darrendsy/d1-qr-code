@@ -4,6 +4,22 @@
 <!-- 每行导出该二维码扫码记录 -->
 <a href="/admin/export/qr/${qr.id}">导出扫码 CSV</a>
 
+<!-- 导入二维码 CSV -->
+<form id="importForm" method="POST" action="/admin/manage/import" enctype="multipart/form-data" style="display:inline-block;margin-left:12px;">
+  <input type="file" name="file" accept=".csv" required />
+  <select name="mode" title="import mode" style="margin-left:8px;">
+    <option value="skip">遇到重复跳过</option>
+    <option value="replace">遇到重复覆盖</option>
+  </select>
+  <button type="submit" style="margin-left:8px;">导入 CSV</button>
+</form>
+
+<!-- 可选：显示导入说明 -->
+<div style="margin-top:12px;font-size:13px;color:#666;">
+  <strong>CSV 格式</strong>：第一行为表头，至少包含 <code>id,target_url</code> 两列。可选列 <code>created_at</code>（ISO 时间或 SQLite datetime）。
+  示例：<code>id,target_url,created_at</code>
+</div>
+
 
 export function renderManagePage(qrs) {
   return `
