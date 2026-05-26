@@ -18,3 +18,9 @@ export async function deleteScansByQrId(env, qrId) {
     "DELETE FROM qr_scans WHERE qr_id = ?"
   ).bind(qrId).run();
 }
+
+export async function getAllScansByQrId(env, qrId) {
+  return await env.DB.prepare(
+    "SELECT id, qr_id, ip, user_agent, referer, country, timestamp FROM qr_scans WHERE qr_id = ? ORDER BY id DESC"
+  ).bind(qrId).all();
+}
