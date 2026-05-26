@@ -15,5 +15,5 @@ export async function handleManageCreateRoute(request, env) {
 
   await createQr(env, id, targetUrl);
 
-  return Response.redirect("/admin/manage", 302);
+  return Response.redirect(new URL("/admin/manage", request.url).toString(), 302);
 }
