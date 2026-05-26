@@ -12,3 +12,9 @@ export async function getScansByQrId(env, qrId, limit = 50) {
     "SELECT * FROM qr_scans WHERE qr_id = ? ORDER BY id DESC LIMIT ?"
   ).bind(qrId, limit).all();
 }
+
+export async function deleteScansByQrId(env, qrId) {
+  return await env.DB.prepare(
+    "DELETE FROM qr_scans WHERE qr_id = ?"
+  ).bind(qrId).run();
+}
