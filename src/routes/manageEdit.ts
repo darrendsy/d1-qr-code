@@ -19,7 +19,7 @@ export async function handleManageEditRoute(request, env) {
       if (!targetUrl) return new Response("缺少 target_url", { status: 400 });
 
       await updateQr(env, qrId, targetUrl);
-      return Response.redirect("/admin/manage", 302);
+      return Response.redirect(new URL("/admin/manage", request.url).toString(), 302);
     }
 
     return new Response("Method Not Allowed", { status: 405 });
