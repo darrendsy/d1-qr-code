@@ -2,6 +2,8 @@ import { handleQrRoute } from "./routes/qr";
 import { handleAdminRoute } from "./routes/admin";
 import { handleManageRoute } from "./routes/manage";
 import { handleManageCreateRoute } from "./routes/manageCreate";
+import { handleManageEditRoute } from "./routes/manageEdit";
+
 
 
 
@@ -13,6 +15,11 @@ export default {
     if (path.startsWith("/qr/")) {
       return handleQrRoute(request, env);
     }
+
+    if (path.startsWith("/admin/manage/edit/")) {
+      return handleManageEditRoute(request, env);
+    }
+
 
     if (path === "/admin/manage/create") {
       return handleManageCreateRoute(request, env);
