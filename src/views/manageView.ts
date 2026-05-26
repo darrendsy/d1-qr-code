@@ -65,7 +65,10 @@ export function renderManagePage(qrs) {
           <td>${qr.id}</td>
           <td>${qr.target_url}</td>
           <td>${qr.created_at}</td>
-          <td><a href="/admin/qr/${qr.id}">查看</a></td>
+          <td>
+            <a href="/admin/qr/${qr.id}">查看</a> |
+            <a href="/admin/manage/edit/${qr.id}">编辑</a>
+          </td>
         </tr>
       `
         )
