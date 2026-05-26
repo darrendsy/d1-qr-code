@@ -136,7 +136,10 @@ export function renderAdminPage(qr, stats, dailyCounts, countryCounts, recentSca
 
   <nav>
     <a href="/admin/manage">← 返回管理列表</a>
-    <a href="/admin/export/qr/${esc(qr.id)}">↓ 导出扫码 CSV</a>
+    <div style="display:flex;gap:16px;align-items:center;">
+      <a href="/admin/export/qr/${esc(qr.id)}">↓ 导出扫码 CSV</a>
+      <a href="/admin/logout" style="color:#888;">退出登录</a>
+    </div>
   </nav>
 
   <h1>二维码统计：${esc(qr.id)}</h1>

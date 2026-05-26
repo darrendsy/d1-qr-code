@@ -60,7 +60,10 @@ export function renderManagePage(qrs) {
 </head>
 <body>
 
-  <h1>二维码管理</h1>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <h1 style="margin:0;">二维码管理</h1>
+    <a href="/admin/logout" style="font-size:13px;color:#888;">退出登录</a>
+  </div>
 
   <div class="top-actions">
     <!-- 导出所有二维码列表 -->
