@@ -3,6 +3,8 @@ import { handleAdminRoute } from "./routes/admin";
 import { handleManageRoute } from "./routes/manage";
 import { handleManageCreateRoute } from "./routes/manageCreate";
 import { handleManageEditRoute } from "./routes/manageEdit";
+import { handleManageDeleteRoute } from "./routes/manageDelete";
+
 
 export default {
   async fetch(request, env) {
@@ -16,6 +18,10 @@ export default {
 
     if (path === "/admin/manage/create") {
       return handleManageCreateRoute(request, env);
+    }
+
+    if (path.startsWith("/admin/manage/delete/")) {
+      return handleManageDeleteRoute(request, env);
     }
 
     // 2. 中等具体
