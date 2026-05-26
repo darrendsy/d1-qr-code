@@ -6,7 +6,7 @@ import { handleManageEditRoute } from "./routes/manageEdit";
 import { handleManageDeleteRoute } from "./routes/manageDelete";
 import { handleExportQrRoute } from "./routes/exportQr";
 import { handleExportQrsRoute } from "./routes/exportQrs";
-import { handleManageImportRoute } from "./routes/manageImport";
+import { handleQrImageRoute } from "./routes/qrImage";
 
 
 export default {
@@ -15,6 +15,10 @@ export default {
     const path = url.pathname;
 
     // 1. 最具体的路由
+    if (path.startsWith("/admin/qr-image/")) {
+      return handleQrImageRoute(request);
+    }
+
     if (path.startsWith("/admin/manage/edit/")) {
       return handleManageEditRoute(request, env);
     }
@@ -25,10 +29,6 @@ export default {
 
     if (path.startsWith("/admin/manage/delete/")) {
       return handleManageDeleteRoute(request, env);
-    }
-
-    if (path === "/admin/manage/import") {
-      return handleManageImportRoute(request, env);
     }
 
     // 2. 中等具体
