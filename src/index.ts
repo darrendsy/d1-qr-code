@@ -1,14 +1,17 @@
-import { renderHtml } from "./renderHtml";
-
 export default {
-	async fetch(request, env) {
-		const stmt = env.DB.prepare("SELECT * FROM comments LIMIT 3");
-		const { results } = await stmt.all();
+  async fetch(request, env) {
+    const url = new URL(request.url);
 
-		return new Response(renderHtml(JSON.stringify(results, null, 2)), {
-			headers: {
-				"content-type": "text/html",
-			},
-		});
-	},
-} satisfies ExportedHandler<Env>;
+    // 取出路径，例如 /qr/abc123
+    const path = url.pathname;
+
+    // 分割路径，得到二维码 ID
+    // /qr/abc123 → ["", "qr", "abc123"]
+    const parts = path.split("/");
+
+    // parts[2] 就是二维码 ID
+    const qrId = parts[2];
+
+    return new Response(`二维码 ID 是：${qrId}`);
+  },
+};
