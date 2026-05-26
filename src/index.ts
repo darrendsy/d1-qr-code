@@ -6,6 +6,7 @@ import { handleManageEditRoute } from "./routes/manageEdit";
 import { handleManageDeleteRoute } from "./routes/manageDelete";
 import { handleExportQrRoute } from "./routes/exportQr";
 import { handleExportQrsRoute } from "./routes/exportQrs";
+import { handleManageImportRoute } from "./routes/manageImport";
 
 
 export default {
@@ -24,6 +25,10 @@ export default {
 
     if (path.startsWith("/admin/manage/delete/")) {
       return handleManageDeleteRoute(request, env);
+    }
+
+    if (path === "/admin/manage/import") {
+      return handleManageImportRoute(request, env);
     }
 
     // 2. 中等具体
