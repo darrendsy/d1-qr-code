@@ -34,3 +34,8 @@ export async function deleteQr(env, id) {
   ).bind(id).run();
 }
 
+export async function getAllQrsForExport(env) {
+  return await env.DB.prepare(
+    "SELECT id, target_url, created_at FROM qr_codes ORDER BY created_at DESC"
+  ).all();
+}
