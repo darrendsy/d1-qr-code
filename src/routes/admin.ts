@@ -1,5 +1,5 @@
 import { getQrById } from "../services/qrService";
-import { getScansByQrId } from "../services/scanService";
+import { getScansByQrId, getScanStats, getDailyScanCounts, getCountryDistribution } from "../services/scanService";
 import { renderAdminPage } from "../views/adminView";
 
 export async function handleAdminRoute(request, env) {
@@ -17,9 +17,14 @@ export async function handleAdminRoute(request, env) {
     return new Response("未找到二维码", { status: 404 });
   }
 
-  const scans = await getScansByQrId(env, qrId);
+  const [stats, dailyCounts, countryCounts, recentScans] = await Promise.all([
+    getScanStats(env, qrId),
+    getDailyScanCounts(env, qrId),
+    getCountryDistribution(env, qrId),
+    getScansByQrId(env, qrId, 20),
+  ]);
 
-  return new Response(renderAdminPage(qr, scans.results), {
+  return new Response(renderAdminPage(qr, stats, dailyCounts.results, countryCounts.results, recentScans.results), {
     headers: { "content-type": "text/html" },
   });
 }
