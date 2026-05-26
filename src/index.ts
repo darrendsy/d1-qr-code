@@ -33,17 +33,55 @@ export default {
       <head>
         <meta charset="utf-8" />
         <title>二维码统计 - ${qrId}</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 40px auto;
+            max-width: 800px;
+            line-height: 1.6;
+            color: #333;
+          }
+          h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+          }
+          .card {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+          }
+          pre {
+            background: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+          }
+          .label {
+            font-weight: bold;
+            color: #555;
+          }
+        </style>
       </head>
       <body>
+      
         <h1>二维码统计：${qrId}</h1>
-        <p>跳转目标：${qr.target_url}</p>
-        <p>总扫码次数：${scans.results.length}</p>
+      
+        <div class="card">
+          <div><span class="label">跳转目标：</span> ${qr.target_url}</div>
+          <div><span class="label">总扫码次数：</span> ${scans.results.length}</div>
+        </div>
       
         <h2>最近扫码记录</h2>
         <pre>${JSON.stringify(scans.results, null, 2)}</pre>
+      
       </body>
       </html>
       `;
+
 
 
       return new Response(html, {
