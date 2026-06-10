@@ -1,7 +1,14 @@
 import { createSessionToken, sessionCookieHeader, clearCookieHeader } from "../services/authService";
-import { renderLoginPage } from "../views/loginView";
+import { renderLoginPage, renderUnconfiguredPage } from "../views/loginView";
 
 export async function handleLoginRoute(request: Request, env: any): Promise<Response> {
+  if (!env.ADMIN_PASSWORD) {
+    return new Response(renderUnconfiguredPage(), {
+      status: 503,
+      headers: { "content-type": "text/html" },
+    });
+  }
+
   if (request.method === "GET") {
     return new Response(renderLoginPage(false), {
       headers: { "content-type": "text/html" },

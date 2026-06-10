@@ -50,7 +50,7 @@ export async function verifySessionToken(password: string, token: string): Promi
 
 export async function isAuthenticated(request: Request, env: any): Promise<boolean> {
   const password: string | undefined = env.ADMIN_PASSWORD;
-  if (!password) return true; // no secret set → open (local dev)
+  if (!password) return false; // no secret configured → always require login
   const token = getSessionCookie(request);
   if (!token) return false;
   return verifySessionToken(password, token);
