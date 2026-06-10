@@ -4,7 +4,7 @@ import { logScan } from "../services/scanService";
 export async function handleQrRoute(request, env) {
   const url = new URL(request.url);
   const parts = url.pathname.split("/");
-  const qrId = parts[2];
+  const qrId = decodeURIComponent(parts[2] ?? "");
 
   if (!qrId) {
     return new Response("缺少二维码 ID", { status: 400 });

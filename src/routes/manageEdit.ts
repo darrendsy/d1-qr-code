@@ -4,7 +4,7 @@ import { renderManageEditPage } from "../views/manageEditView";
 export async function handleManageEditRoute(request, env) {
   const url = new URL(request.url);
   const parts = url.pathname.split("/");
-  const qrId = parts[parts.length - 1];
+  const qrId = decodeURIComponent(parts[parts.length - 1] ?? "");
 
   if (request.method === "GET") {
     const qr = await getQrById(env, qrId);

@@ -5,7 +5,7 @@ import { renderAdminPage } from "../views/adminView";
 export async function handleAdminRoute(request, env) {
   const url = new URL(request.url);
   const parts = url.pathname.split("/");
-  const qrId = parts[3];
+  const qrId = decodeURIComponent(parts[3] ?? "");
 
   if (!qrId) {
     return new Response("缺少二维码 ID", { status: 400 });
